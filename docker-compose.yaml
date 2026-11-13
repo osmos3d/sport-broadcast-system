@@ -15,7 +15,7 @@ services:
     build: ./node
     container_name: skiing-server
     environment:
-      VMIX_IP: host.docker.internal
+      VMIX_IP: vmix-mock
       EVID: 9297
     ports:
       - "3000:3000"
@@ -25,10 +25,14 @@ services:
     build: ./list
     container_name: skiing-list
     environment:
-      VMIX_IP: host.docker.internal
+      VMIX_IP: vmix-mock
       EVID: 9297
-      SERVER_IP: "skiing-server:3000"
+      SERVER_IP: "http://skiing-server:3000"
     ports:
       - "7000:7000"
     depends_on:
       - skiing-server
+
+  vmix-mock:
+    build: ./vmix-mock
+    container_name: vmix-mock
