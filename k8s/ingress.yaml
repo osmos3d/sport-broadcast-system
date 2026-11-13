@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sports-ingress
+  namespace: sports-broadcast
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: list.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: skiing-list
+                port:
+                  number: 7000
+
+    - host: server.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: skiing-server
+                port:
+                  number: 3000
