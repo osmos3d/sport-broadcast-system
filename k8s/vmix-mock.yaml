@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vmix-mock
+  namespace: sports-broadcast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vmix-mock
+  template:
+    metadata:
+      labels:
+        app: vmix-mock
+    spec:
+      containers:
+        - name: vmix-mock
+          image: vmix-mock:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8099
+              name: tcp-vmix
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vmix-mock
+  namespace: sports-broadcast
+spec:
+  type: ClusterIP
+  selector:
+    app: vmix-mock
+  ports:
+    - name: tcp-vmix
+      port: 8099
+      targetPort: 8099
+      protocol: TCP

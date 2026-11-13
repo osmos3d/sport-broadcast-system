@@ -1,4 +1,3 @@
-
 Vue.createApp( {
 	
 	data() {
@@ -23,6 +22,7 @@ Vue.createApp( {
 	},
 
 	
+	
 	getJson(){
 		var thisMain = this;
 		axios.post('/athlets')	
@@ -40,8 +40,12 @@ Vue.createApp( {
 
 		
 
-		const staticLines = 15; // количество статичных строк
-		const dynamicLines = 10; // количество строк, которые будут меняться 
+
+		const staticLines = 5 // количество статичных строк
+		const dynamicLines = 10 //количество динамических строк
+
+		console.log( "static lines:", staticLines)
+		console.log( "dynamic lines:",dynamicLines)
 		const totalLines = staticLines+dynamicLines ; 
 		const baseTop = 100; // отступ сверху страницы первого титра
 		const baseLeft = 110;
