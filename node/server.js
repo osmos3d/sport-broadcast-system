@@ -14,7 +14,7 @@ const vMix = new vMixTCP.ConnectionTCP(process.env.VMIX_IP || vMixIPaddres );
 
 const app = express();
 const PORT ="3000";
-let EVID = 9297;
+var EVID = process.env.EVID || 9297;
 let id = 15 ;
 let round, stage_text;
 let isRequestInProgress = false;
@@ -69,7 +69,7 @@ app.get('/json', (req,res)=> {
 
 vMix.on('connect', () => {
     console.log('vMix Connected!');
-    setInterval(updateData, 2000);
+    setInterval(updateData, 10000);
 });
 
 
@@ -95,10 +95,10 @@ app.post( '/selectedAtForTable', (req,res) => {
 function readExcelData() {
     return readXlsxFile('./setka.xlsx').then((sheets) => {
         rows = sheets[0].data
-        evid = process.env.EVID || rows[0][1];
+        EVID = process.env.EVID || rows[0][1];
         id = rows[1][1];
         console.log ( 'id', id)
-        console.log ( 'evid', evid)
+        console.log ( 'EVID', EVID)
         mode = rows[3][1];
         stage_text = rows[4][1];
         cat_title=rows[5][1];
@@ -116,7 +116,7 @@ function readExcelData() {
 
 
 
-// let api = 'https://myfinish.info/php/gate_online.php?evid='
+// let api = 'https://myfinish.info/php/gate_online.php?EVID='
 // let headers =
 //     {
 //         'Referer': 'https://new.myfinish.info/',
@@ -134,7 +134,7 @@ function readExcelData() {
 //     }
 //     isRequestInProgress = true;
 //     readExcelData()
-//         .then(() => axios.get( apiUrl( api, evid, 2 ),{headers}))
+//         .then(() => axios.get( apiUrl( api, EVID, 2 ),{headers}))
 //         .then(response => {
 //             let json = response.data
 //             //console.log( json )
@@ -152,7 +152,7 @@ function readExcelData() {
 //             let competition_title = json.n 
 //             console.log( 'Текущее соревнование:', competition_title)
 //             updateTpl('time', 'class', stage_title )
-//             return axios.get(  apiUrl( api, evid, `1${id}`) , {headers} )
+//             return axios.get(  apiUrl( api, EVID, `1${id}`) , {headers} )
 //         })
 //         .then( response => {
 //             //console.log( 'response data ',response.data )
@@ -503,9 +503,9 @@ function handleError(error, context) {
     console.error(`Error in ${context}:`, error);
 }
 
-function apiUrl( api, evid, id) {
+function apiUrl( api, EVID, id) {
     let timestamp = Date.now()
-    return `${api}${evid}&d=${id}&U=${timestamp}`
+    return `${api}${EVID}&d=${id}&U=${timestamp}`
 }
 
 function createNewR(r) {
