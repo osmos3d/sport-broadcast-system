@@ -32,6 +32,22 @@ app.listen ( PORT, () => {
 	console.log( 'server is workking on ' + PORT )
 })
 
+// Kubernetes Liveness Probe
+app.get('/health/live', (req, res) => {
+    res.status(200).json({
+        status: 'alive',
+        service: 'skiing-list'
+    });
+});
+
+// Kubernetes Readiness Probe
+app.get('/health/ready', (req, res) => {
+    res.status(200).json({
+        status: 'ready',
+        service: 'skiing-list'
+    });
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

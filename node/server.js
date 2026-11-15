@@ -43,6 +43,22 @@ app.listen ( PORT, () => {
     console.log( 'server is workking on ' + PORT )
 })
 
+// Kubernetes Liveness Probe
+app.get('/health/live', (req, res) => {
+    res.status(200).json({
+        status: 'alive',
+        service: 'skiing-server'
+    });
+});
+
+// Kubernetes Readiness Probe
+app.get('/health/ready', (req, res) => {
+    res.status(200).json({
+        status: 'ready',
+        service: 'skiing-server'
+    });
+});
+
 // сервер результатов в браузер
 app.get('/', (req, res) => {
     res.send(__dirname + '/index.html');
